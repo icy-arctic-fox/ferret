@@ -1,0 +1,2 @@
+class TreeDiffReportGenerator
+end

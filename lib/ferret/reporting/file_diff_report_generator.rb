@@ -1,0 +1,2 @@
+class FileDiffReportGenerator
+end

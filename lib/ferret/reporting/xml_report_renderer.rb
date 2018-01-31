@@ -1,0 +1,2 @@
+class XmlReportRenderer
+end

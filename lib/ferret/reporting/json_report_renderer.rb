@@ -1,0 +1,2 @@
+class JsonReportRenderer
+end

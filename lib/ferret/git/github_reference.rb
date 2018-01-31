@@ -1,0 +1,2 @@
+class GitHubReference
+end
