@@ -1,4 +1,5 @@
 module Ferret
+  # Functionality for generating and rendering reports.
   module Reporting
   end
 end

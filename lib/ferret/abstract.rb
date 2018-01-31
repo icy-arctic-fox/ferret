@@ -6,6 +6,7 @@ class Class
   # then a +NoMethodError+ is raised.
   # @param method [Symbol] Name of the method to define.
   # @return [void]
+  # @!visibility public
   def abstract(method)
     define_method(method) do
       raise NoMethodError, "Unimplemented abstract method #{self.class}##{method} called"

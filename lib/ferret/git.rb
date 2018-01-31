@@ -1,8 +1,11 @@
 module Ferret
+  # Implementation details for git repositories.
   module Git
   end
 end
 
+# Git functionality relies on the Rugged gem.
+# Make sure that is installed and enabled.
 if Gem.loaded_specs.has_key?('rugged')
   require_relative 'git/git_author'
   require_relative 'git/git_branch'

@@ -1,4 +1,7 @@
+require_relative 'reference'
+
 module Ferret
-  class JiraReference
+  # Reference information to a JIRA ticket.
+  class JiraReference < Reference
   end
 end
