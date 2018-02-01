@@ -29,3 +29,8 @@ require_relative 'ferret/tag'
 require_relative 'ferret/tree_diff'
 require_relative 'ferret/vcs_driver'
 require_relative 'ferret/version'
+
+
+# Git functionality relies on the Rugged gem.
+# Make sure that is installed and enabled.
+require_relative 'ferret/git' if Gem.loaded_specs.has_key?('rugged')
