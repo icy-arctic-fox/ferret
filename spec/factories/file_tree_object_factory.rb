@@ -1,20 +1,21 @@
 FactoryBot.define do
   factory :directory, class: Ferret::Directory do
-    full_path '/foo/bar'
-    contents do
-      arr  = build_list(:file, 5)
-      arr += build_list(:directory, 5, build_subdirectories: false) unless build_subdirectories
-      arr
-    end
+    sequence(:full_path) { |n| File.join(parent_directory, "dir-#{n}") }
+    contents { build_list(:file, 5, parent_directory: full_path) +
+        build_list(:directory, subdirectory_count, subdirectory_count: 0, parent_directory: full_path) }
     transient do
-      build_subdirectories true # Set to false to disable generating sub-directory objects.
+      parent_directory '/'
+      subdirectory_count 3
     end
     initialize_with { new(full_path, contents) }
   end
 
   factory :file, aliases: [:fto], class: Ferret::File do
-    full_path '/foo/bar/baz.txt'
+    sequence(:full_path) { |n| File.join(parent_directory, "#{n}.txt") }
     hash { 'deadbeef' * 5 }
+    transient do
+      parent_directory '/'
+    end
     initialize_with { new(full_path, hash) }
   end
 end
