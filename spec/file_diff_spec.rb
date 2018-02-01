@@ -1,16 +1,6 @@
 RSpec.describe Ferret::FileDiff do
   subject(:file_diff) { build(:file_diff) }
 
-  describe '#file' do
-    let(:file) { build(:file) }
-    subject(:file_diff) { build(:file_diff, file: file) }
-    subject { file_diff.file }
-
-    it 'is the expected value' do
-      is_expected.to eq(file)
-    end
-  end
-
   describe '#lines_added' do
     let(:lines_added) { build_list(:source_line, 5) }
     subject(:file_diff) { build(:file_diff, lines_added: lines_added) }
