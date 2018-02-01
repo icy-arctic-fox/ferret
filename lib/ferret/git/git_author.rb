@@ -9,8 +9,8 @@ module Ferret
       attr_reader :email
 
       # Creates a new author.
-      # @param name Display name of the user.
-      # @param email Email address of the user.
+      # @param name [String] Display name of the user.
+      # @param email [String] Email address of the user.
       def initialize(name, email)
         @email = email
         super(name)

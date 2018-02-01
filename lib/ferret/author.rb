@@ -6,7 +6,7 @@ module Ferret
     attr_reader :name
 
     # Creates a new author.
-    # @param name Display name of the user.
+    # @param name [String] Display name of the user.
     def initialize(name)
       @name = name
       freeze
