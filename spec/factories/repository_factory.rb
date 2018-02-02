@@ -8,4 +8,22 @@ FactoryBot.define do
       url 'https://github.com/icy-arctic-fox/ferret.git'
     end
   end
+
+  factory :revision, class: Ferret::RevisionId do
+    id { 'deadbeef' * 5 }
+    repository { build(:repo) }
+    initialize_with { new(id, repository) }
+  end
+
+  factory :git_branch, aliases: [:branch], class: Ferret::Git::GitBranch do
+    name 'master'
+    revision { build(:revision) }
+    initialize_with { new(name, revision) }
+  end
+
+  factory :git_tag, aliases: [:tag], class: Ferret::Git::GitTag do
+    name 'v1.0'
+    revision { build(:revision) }
+    initialize_with { new(name, revision) }
+  end
 end

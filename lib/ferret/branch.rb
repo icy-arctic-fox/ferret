@@ -10,9 +10,13 @@ module Ferret
     # @return [RevisionId]
     attr_reader :revision
 
-    # Indicates whether this branch is the default in the repository.
-    def default?
-      raise NotImplementedError
+    # Creates a branch reference.
+    # @param name [String] Display name of the branch.
+    # @param revision [RevisionId] Revision at the tip of the branch.
+    def initialize(name, revision)
+      @name     = name
+      @revision = revision
+      freeze
     end
   end
 end

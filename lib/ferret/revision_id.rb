@@ -8,5 +8,14 @@ module Ferret
     # Reference back to the repository this revision exists in.
     # @return [Repository]
     attr_reader :repository
+
+    # Creates a revision identifier.
+    # @param id [String] ID of the revision.
+    # @param repository [Repository] Reference back to the repository this revision exists in.
+    def initialize(id, repository)
+      @id         = id
+      @repository = repository
+      freeze
+    end
   end
 end
