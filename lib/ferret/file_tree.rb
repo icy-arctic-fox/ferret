@@ -4,5 +4,12 @@ module Ferret
     # Set of all objects in the file structure.
     # @return [Array<FileTreeObject>]
     attr_reader :objects
+
+    # Creates a file tree.
+    # @param objects [Enumerable<FileTreeObject>] Set of all objects in the file structure.
+    def initialize(objects)
+      @objects = objects.to_a.dup.freeze
+      freeze
+    end
   end
 end

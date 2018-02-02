@@ -18,4 +18,9 @@ FactoryBot.define do
     end
     initialize_with { new(full_path, hash) }
   end
+
+  factory :file_tree, class: Ferret::FileTree do
+    objects { build_list(:directory, 3) + build_list(:file, 3) }
+    initialize_with { new(objects) }
+  end
 end
