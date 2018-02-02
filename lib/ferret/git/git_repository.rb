@@ -14,7 +14,8 @@ module Ferret
       # @param url [String] Location of where the repository can be accessed.
       # @param auth [nil, UserPasswordAuth, SshKeyAuth] Authentication method.
       def initialize(url, auth)
-        raise NotImplementedError
+        @auth = auth
+        super(url)
       end
     end
   end
