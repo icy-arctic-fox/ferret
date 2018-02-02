@@ -20,4 +20,16 @@ FactoryBot.define do
     end
     initialize_with { new(files_added, files_removed, files_modified) }
   end
+
+  factory :directory_diff, class: Ferret::DirectoryDiff do
+    objects_added { build_list(:fto, objects_added_count) }
+    objects_removed { build_list(:fto, objects_removed_count) }
+    objects_modified { build_list(:fto, objects_modified_count) }
+    transient do
+      objects_added_count 2
+      objects_removed_count 1
+      objects_modified_count 3
+    end
+    initialize_with { new(objects_added, objects_removed, objects_modified) }
+  end
 end
