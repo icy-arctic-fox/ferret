@@ -26,4 +26,12 @@ FactoryBot.define do
     revision { build(:revision) }
     initialize_with { new(name, revision) }
   end
+
+  factory :git_commit, aliases: [:commit], class: Ferret::Git::GitCommit do
+    revision { build(:revision) }
+    message 'Just a test commit'
+    author { build(:git_author) }
+    committer { author }
+    initialize_with { new(revision, message, author, committer) }
+  end
 end

@@ -11,8 +11,19 @@ module Ferret
     # @return [String]
     attr_reader :message
 
-    # User that created the commit.
+    # User that created the commit and time it was made.
     # @return [AuthorTime]
     attr_reader :author
+
+    # Creates a reference to a commit.
+    # @param revision [RevisionId] Unique identifier for this commit.
+    # @param message [String] Message submitted with the commit.
+    # @param author [AuthorTime] User and time the commit was created.
+    def initialize(revision, message, author)
+      @revision = revision
+      @message  = message
+      @author   = author
+      freeze
+    end
   end
 end
