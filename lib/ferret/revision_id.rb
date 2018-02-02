@@ -4,5 +4,9 @@ module Ferret
     # ID of the revision.
     # @return [String]
     attr_reader :id
+
+    # Reference back to the repository this revision exists in.
+    # @return [Repository]
+    attr_reader :repository
   end
 end

@@ -6,6 +6,10 @@ module Ferret
     # @return [String]
     attr_reader :name
 
+    # Revision at the tip of the branch.
+    # @return [RevisionId]
+    attr_reader :revision
+
     # Indicates whether this branch is the default in the repository.
     def default?
       raise NotImplementedError
