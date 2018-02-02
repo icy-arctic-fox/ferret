@@ -20,5 +20,22 @@ module Ferret
     # Number of files changed.
     # @return [Integer]
     attr_reader :files_modified
+
+    # Creates commit statistics.
+    # @param opts [Hash<Symbol => Integer>] Totals for the commit.
+    #   Omitting any of the values will set it to zero.
+    # @option opts [Integer] :lines_added Number of lines added.
+    # @option opts [Integer] :lines_removed Number of lines removed.
+    # @option opts [Integer] :files_added Number of new files.
+    # @option opts [Integer] :files_removed Number of deleted files.
+    # @option opts [Integer] :files_modified Number of files changed.
+    def initialize(opts = {})
+      @lines_added    = opts[:lines_added]    || 0
+      @lines_removed  = opts[:lines_removed]  || 0
+      @files_added    = opts[:files_added]    || 0
+      @files_removed  = opts[:files_removed]  || 0
+      @files_modified = opts[:files_modified] || 0
+      freeze
+    end
   end
 end
