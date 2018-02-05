@@ -13,7 +13,7 @@ module Ferret
       # Creates a reference to a git repository.
       # @param url [String] Location of where the repository can be accessed.
       # @param auth [nil, UserPasswordAuth, SshKeyAuth] Authentication method.
-      def initialize(url, auth)
+      def initialize(url, auth = nil)
         @auth = auth
         super(url)
       end
