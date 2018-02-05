@@ -1,3 +1,5 @@
+require 'diff-lcs'
+
 module Ferret
   # Central point for generating diff analysis.
   class DiffGenerator
@@ -6,7 +8,9 @@ module Ferret
     # @param destination_driver [VcsDriver] Driver used to get destination objects.
     #   If this is +nil+, then the source_driver will be used for both drivers.
     def initialize(source_driver, destination_driver = nil)
-      raise NotImplementedError
+      @source_driver      = source_driver
+      @destination_driver = destination_driver || source_driver
+      freeze
     end
 
     # Computes the difference between two branches.
@@ -14,6 +18,9 @@ module Ferret
     # @param destination_branch [Branch] Branch to compare to.
     # @return [BranchDiff] Differences between the branches.
     def between_branches(source_branch, destination_branch)
+      source_commits      = @source_driver.commits_on_branch(source_branch)
+      destination_commits = @destination_driver.commits_on_branch(destination_branch)
+      sdiff = Diff::LCS.sdiff(source_commits, destination_commits)
       raise NotImplementedError
     end
 
