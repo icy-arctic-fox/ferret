@@ -40,7 +40,13 @@ module Ferret
       # @param branch [Branch] Branch to inspect for commits.
       # @return [Enumerable<Commit>]
       def commits_on_branch(branch)
-        raise NotImplementedError
+        repository = branch.revision.repository
+        walk_commits(branch.revision) do |rugged_commit|
+          revision  = RevisionId.new(rugged_commit.oid, repository)
+          author    = rugged_author_to_author_time(rugged_commit.author)
+          committer = rugged_author_to_author_time(rugged_commit.committer)
+          GitCommit.new(revision, rugged_commit.message, author, committer)
+        end
       end
 
       # Retrieves a list of all known branches in a repository.
@@ -116,6 +122,30 @@ module Ferret
       # @return [Rugged::Repository] Cloned repository instance.
       def clone_repository(url, path, credentials)
         Rugged::Repository.clone_at(url, path, credentials: credentials)
+      end
+
+      # Iterates over commits reachable from a point on the DAG and maps them to a new value.
+      # @param start [RevisionId] Reference to the revision to start at.
+      # @yieldparam [Rugged::Commit] Commit information.
+      # @yieldreturn [Object] Value to map the commit to.
+      # @return [Enumerable] Collection of values returned from the yield block.
+      def walk_commits(start, &block)
+        repository = start.repository
+        rugged     = rugged_repository(repository)
+        walker     = Rugged::Walker.new(rugged)
+        walker.push(start.id)
+        walker.map(&block)
+      end
+
+      # Converts author or committer information to an author instance used by this module.
+      # @param rugged_author [Hash] Author information provided by Rugged.
+      # @option rugged_author [String] :name Author's name.
+      # @option rugged_author [String] :email Author's email address.
+      # @option rugged_author [Time] :time Date and time information.
+      # @return [AuthorTime] Constructed author information.
+      def rugged_author_to_author_time(rugged_author)
+        author = GitAuthor.new(rugged_author[:name], rugged_author[:email])
+        AuthorTime.new(author, rugged_author[:time])
       end
     end
   end
