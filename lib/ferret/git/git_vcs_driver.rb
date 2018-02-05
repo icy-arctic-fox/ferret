@@ -20,7 +20,10 @@ module Ferret
       # @param revision [RevisionId] Revision to get the tree structure at.
       # @return [FileTree]
       def file_tree_at_revision(revision)
-        raise NotImplementedError
+        rugged        = rugged_repository(revision.repository)
+        rugged_commit = rugged.lookup(revision.id)
+        objects       = build_tree(rugged, rugged_commit.tree)
+        FileTree.new(objects)
       end
 
       # Retrieves the raw file contents of a file at a specified revision.
@@ -146,6 +149,24 @@ module Ferret
       def rugged_author_to_author_time(rugged_author)
         author = GitAuthor.new(rugged_author[:name], rugged_author[:email])
         AuthorTime.new(author, rugged_author[:time])
+      end
+
+      def build_tree(rugged, root, parent = '/')
+        root.map do |entry|
+          full_path = parent + entry[:name]
+          case entry[:type]
+            when :blob
+              blob = rugged.lookup(entry[:oid])
+              hash = FileHash.new(StringIO.new(blob.content)).hexdigest
+              File.new(full_path, hash)
+            when :tree
+              subtree  = rugged.lookup(entry[:oid])
+              contents = build_tree(rugged, subtree, full_path + '/')
+              Directory.new(full_path, contents)
+            else
+              raise "Unknown tree entry type #{entry[:type]} - #{entry[:name]} [#{entry[:oid]}]"
+          end
+        end
       end
     end
   end
