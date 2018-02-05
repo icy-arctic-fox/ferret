@@ -47,7 +47,13 @@ module Ferret
       # @param repository [Repository] Repository to inspect.
       # @return [Enumerable<Branch>]
       def branches_in_repository(repository)
-        raise NotImplementedError
+        rugged_branches = rugged_repository(repository).branches
+        rugged_branches.each_name(:remote).map do |remote_name|
+          branch_name = remote_name.sub(/^origin\//, '') # Strip origin/ from beginning of string.
+          target_id   = rugged_branches[remote_name].target_id
+          revision    = RevisionId.new(target_id, repository)
+          Branch.new(branch_name, revision)
+        end
       end
 
       private
