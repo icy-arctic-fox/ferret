@@ -8,8 +8,11 @@ module Ferret
     class GitVcsDriver < VcsDriver
       # Creates a new driver for git repositories.
       # @param cache [RepositoryCache] Cache to track which repositories are actively being used.
-      def initialize(cache)
-        @cache = cache
+      # @param work_dir [String] Path to the directory to use for temporary scratch work.
+      #   Git repositories will be checked out to this location for processing.
+      def initialize(cache, work_dir)
+        @cache    = cache
+        @work_dir = work_dir
         freeze
       end
 
@@ -53,7 +56,7 @@ module Ferret
       # @return [String] Path to where the repository (should) reside.
       def repository_path(repository)
         repo_dir = Digest::SHA2.hexdigest(repository.url)
-        ::File.join('.', repo_dir)
+        ::File.join(@work_dir, repo_dir)
       end
 
       # Generates the Rugged credentials equivalent for the given repository.
