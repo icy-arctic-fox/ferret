@@ -17,5 +17,9 @@ module Ferret
       @time   = time
       freeze
     end
+
+    def ==(other)
+      other.author == author && other.time == time
+    end
   end
 end

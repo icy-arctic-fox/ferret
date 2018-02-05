@@ -14,5 +14,9 @@ module Ferret
       @contents = contents.to_a.dup.freeze
       super(full_path)
     end
+
+    def ==(other)
+      super && other.contents == contents
+    end
   end
 end

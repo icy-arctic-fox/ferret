@@ -14,5 +14,9 @@ module Ferret
       @hash = hash
       super(full_path)
     end
+
+    def ==(other)
+      super && other.hash == hash
+    end
   end
 end

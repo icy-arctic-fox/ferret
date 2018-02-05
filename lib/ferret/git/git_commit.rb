@@ -19,6 +19,10 @@ module Ferret
         @committer = committer || author
         super(revision, message, author)
       end
+
+      def ==(other)
+        super && other.respond_to?(:committer) && other.committer == committer
+      end
     end
   end
 end

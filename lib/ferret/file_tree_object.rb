@@ -2,6 +2,8 @@ module Ferret
   # Minimum attributes that an object in a file tree can have.
   # @abstract Base type for all objects that can exist in a file tree.
   class FileTreeObject
+    include Comparable
+
     # Full path of the object.
     # This includes the relative directory path from the top of the repository.
     # @return [String]
@@ -18,6 +20,14 @@ module Ferret
     # @return [String]
     def name
       ::File.basename(@full_path)
+    end
+
+    def <=>(other)
+      full_path <=> other.full_path
+    end
+
+    def ==(other)
+      other.full_path == full_path
     end
   end
 end

@@ -15,6 +15,10 @@ module Ferret
         @email = email
         super(name)
       end
+
+      def ==(other)
+        super && other.respond_to?(:email) && other.email == email
+      end
     end
   end
 end

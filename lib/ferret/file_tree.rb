@@ -11,5 +11,9 @@ module Ferret
       @objects = objects.to_a.dup.freeze
       freeze
     end
+
+    def ==(other)
+      other.objects.sort == objects.sort
+    end
   end
 end

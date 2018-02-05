@@ -11,5 +11,9 @@ module Ferret
       @name = name
       freeze
     end
+
+    def ==(other)
+      other.name == name
+    end
   end
 end

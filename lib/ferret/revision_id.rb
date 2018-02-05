@@ -17,5 +17,9 @@ module Ferret
       @repository = repository
       freeze
     end
+
+    def ==(other)
+      other.id == id
+    end
   end
 end

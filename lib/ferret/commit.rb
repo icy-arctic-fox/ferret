@@ -25,5 +25,9 @@ module Ferret
       @author   = author
       freeze
     end
+
+    def ==(other)
+      other.revision == revision && other.message == message && other.author == author
+    end
   end
 end
