@@ -91,8 +91,31 @@ module Ferret
         @cache.lookup(repository) do |repo|
           path = repository_path(repository)
           cred = rugged_credentials(repository)
-          Rugged::Repository.clone_at(repo.url, path, credentials: cred)
+          if Dir.exist?(path)
+            update_repository(path, cred)
+          else
+            clone_repository(repo.url, path, cred)
+          end
         end
+      end
+
+      # Performs an update on a local repository so that it is up-to-date with the remote.
+      # @param path [String] Directory path to the local repository.
+      # @param credentials [Object] Rugged credentials.
+      # @return [Rugged::Repository] Updated repository instance.
+      def update_repository(path, credentials)
+        Rugged::Repository.init_at(path, credentials: credentials).tap do |rugged|
+          rugged.fetch('origin')
+        end
+      end
+
+      # Clones a remote repository.
+      # @param url [String] URL of the remote repository.
+      # @param path [String] Directory path to the local repository.
+      # @param credentials [Object] Rugged credentials.
+      # @return [Rugged::Repository] Cloned repository instance.
+      def clone_repository(url, path, credentials)
+        Rugged::Repository.clone_at(url, path, credentials: credentials)
       end
     end
   end
