@@ -52,7 +52,7 @@ module Ferret
           branch_name = remote_name.sub(/^origin\//, '') # Strip origin/ from beginning of string.
           target_id   = rugged_branches[remote_name].target_id
           revision    = RevisionId.new(target_id, repository)
-          Branch.new(branch_name, revision)
+          GitBranch.new(branch_name, revision)
         end
       end
 
