@@ -36,7 +36,17 @@ module Ferret
       # @return [void] Block was provided to the method.
       # @yieldparam io [IO] Stream of the file contents.
       def file_contents_at_revision(revision, file)
-        raise NotImplementedError
+        blob = find_file(revision, file)
+        io   = StringIO.new(blob.content)
+        if block_given?
+          begin
+            yield io
+          ensure
+            io.close
+          end
+        else
+          io
+        end
       end
 
       # Retrieves a set of commits that have occurred on a branch.
@@ -167,6 +177,21 @@ module Ferret
               raise "Unknown tree entry type #{entry[:type]} - #{entry[:name]} [#{entry[:oid]}]"
           end
         end
+      end
+
+      def find_file(revision, file)
+        rugged        = rugged_repository(revision.repository)
+        rugged_commit = rugged.lookup(revision.id)
+        find_file_in_tree(rugged, rugged_commit.tree, file)
+      end
+
+      def find_file_in_tree(rugged, tree, file)
+        path = file.full_path[1..-1] # Strip off leading /
+        while path.include?('/')
+          parent, path = path.split('/', 2)
+          tree = rugged.lookup(tree[parent][:oid])
+        end
+        rugged.lookup(tree[path][:oid])
       end
     end
   end
