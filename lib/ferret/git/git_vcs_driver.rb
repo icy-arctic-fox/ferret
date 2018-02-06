@@ -130,7 +130,7 @@ module Ferret
       # @return [Rugged::Repository] Updated repository instance.
       def update_repository(path, credentials)
         Rugged::Repository.init_at(path, credentials: credentials).tap do |rugged|
-          rugged.fetch('origin')
+          rugged.fetch('origin', credentials: credentials)
         end
       end
 
