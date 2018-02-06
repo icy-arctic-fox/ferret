@@ -5,6 +5,8 @@ module Ferret
 end
 
 require_relative 'reporting/branch_diff_report_generator'
+require_relative 'reporting/commit_list_segment'
+require_relative 'reporting/commit_segment'
 require_relative 'reporting/contributor_report_generator'
 require_relative 'reporting/file_diff_report_generator'
 require_relative 'reporting/html_report_renderer'
