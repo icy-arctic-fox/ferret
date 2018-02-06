@@ -10,16 +10,19 @@ module Ferret
       # @!method to_json
       #   Generates the JSON representation of the segment.
       #   @return [String]
+      #   @abstract
       abstract :to_json
 
       # @!method to_xml
       #   Generates the XML representation of the segment.
       #   @return [String]
+      #   @abstract
       abstract :to_xml
 
       # @!method to_html
       #   Generates the HTML representation of the segment.
       #   @return [String]
+      #   @abstract
       abstract :to_html
 
       # Creates a segment.
