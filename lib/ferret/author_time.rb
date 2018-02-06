@@ -1,6 +1,8 @@
 module Ferret
   # Information about a user and when they performed an operation in the repository.
   class AuthorTime
+    include Comparable
+
     # Author that performed the action.
     # @return [Author]
     attr_reader :author
@@ -20,6 +22,10 @@ module Ferret
 
     def ==(other)
       other.author == author && other.time == time
+    end
+
+    def <=>(other)
+      time <=> other.time
     end
   end
 end

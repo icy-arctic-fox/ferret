@@ -23,6 +23,10 @@ module Ferret
       def ==(other)
         super && other.respond_to?(:committer) && other.committer == committer
       end
+
+      def <=>(other)
+        committer <=> other.committer
+      end
     end
   end
 end

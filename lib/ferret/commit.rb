@@ -2,6 +2,8 @@ module Ferret
   # Snapshot of a point in time in the repository.
   # @abstract Implemented by a sub-class based on the repository type.
   class Commit
+    include Comparable
+
     # Unique identifier for this commit.
     # @return [RevisionId]
     attr_reader :revision
@@ -28,6 +30,10 @@ module Ferret
 
     def ==(other)
       other.revision == revision && other.message == message && other.author == author
+    end
+
+    def <=>(other)
+      author <=> other.author
     end
   end
 end
