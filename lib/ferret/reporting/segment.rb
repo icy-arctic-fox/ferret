@@ -7,28 +7,24 @@ module Ferret
       # @return [String]
       attr_reader :title
 
-      # @!method to_json
-      #   Generates the JSON representation of the segment.
-      #   @return [String]
-      #   @abstract
-      abstract :to_json
+      # Machine-friendly name.
+      # This should be snake_case.
+      # @return [String]
+      attr_reader :slug
 
-      # @!method to_xml
-      #   Generates the XML representation of the segment.
-      #   @return [String]
+      # @!method to_obj
+      #   Generates an object (combination of hashes and arrays) that can be easily serialized.
+      #   @return [Hash]
       #   @abstract
-      abstract :to_xml
-
-      # @!method to_html
-      #   Generates the HTML representation of the segment.
-      #   @return [String]
-      #   @abstract
-      abstract :to_html
+      abstract :to_obj
 
       # Creates a segment.
       # @param title [String] Name of the segment.
-      def initialize(title)
+      # @param slug [String] Machine-friendly name.
+      #   This should be snake_case.
+      def initialize(title, slug)
         @title = title
+        @slug  = slug
         freeze
       end
     end
