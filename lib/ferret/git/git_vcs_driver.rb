@@ -94,10 +94,16 @@ module Ferret
           when UserPasswordAuth
             # Yeah, yeah, I know this is bad.
             Rugged::Credentials::UserPassword.new(
-                username: auth.instance_variable_get('@username'),
-                password: auth.instance_variable_get('@password'))
+              username: auth.instance_variable_get('@username'),
+              password: auth.instance_variable_get('@password')
+            )
           when SshKeyAuth
-            raise NotImplementedError # Rugged::Credentials::SshKey
+            username = repository.url.split('@').first.split('://').last
+            Rugged::Credentials::SshKey.new(
+              username:   username,
+              publickey:  auth.instance_variable_get('@public_key'),
+              privatekey: auth.instance_variable_get('@private_key')
+            )
           else
             raise "Unsupported authentication type for git - #{auth.class}"
         end
