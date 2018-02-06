@@ -20,7 +20,7 @@ module Ferret
       private
 
       def commit_segments(commits)
-        commits.map do |commit|
+        commits.reverse.map do |commit|
           CommitSegment.new(commit)
         end
       end
