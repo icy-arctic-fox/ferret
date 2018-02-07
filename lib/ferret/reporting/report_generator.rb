@@ -6,9 +6,11 @@ module Ferret
       # Creates a new report generator.
       # @param title [String] Name to give the generated report.
       # @param summary [String] Brief description of the report.
-      def initialize(title, summary)
+      # @param finder [ReferenceFinder] Finder used to discover references.
+      def initialize(title, summary, finder)
         @title   = title
         @summary = summary
+        @finder  = finder
         freeze
       end
 
@@ -19,6 +21,8 @@ module Ferret
       end
 
       protected
+
+      attr_reader :finder
 
       # @!method segments
       #   Generates the segments to be used in the report.

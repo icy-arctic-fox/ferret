@@ -3,8 +3,9 @@ require_relative 'segment'
 module Ferret
   module Reporting
     class CommitSegment < Segment
-      def initialize(commit)
-        @commit = commit
+      def initialize(commit, references)
+        @commit     = commit
+        @references = references
         title = [commit.author.author.name, commit.revision.id].join(' ')
         super(title, commit.revision.id)
       end
@@ -14,7 +15,8 @@ module Ferret
             author_name: @commit.author.author.name,
             time:        @commit.author.time,
             revision:    @commit.revision.id,
-            message:     @commit.message
+            message:     @commit.message,
+            references:  @references.map(&:to_obj)
         }
         if has_committer?
           obj[:commit_time]    = @commit.committer.time
