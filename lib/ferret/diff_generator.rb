@@ -30,7 +30,8 @@ module Ferret
       merged_commits.sort!
       unmerged_commits.sort!
       commits_ahead.sort!
-      BranchDiff.new(merged_commits, unmerged_commits, commits_ahead)
+      BranchDiff.new(source_branch, destination_branch,
+                     merged: merged_commits, unmerged: unmerged_commits, ahead: commits_ahead)
     end
 
     # Computes the difference between two code trees.
