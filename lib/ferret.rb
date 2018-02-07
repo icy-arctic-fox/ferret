@@ -18,8 +18,10 @@ require_relative 'ferret/file_hash'
 require_relative 'ferret/file_tree'
 require_relative 'ferret/file_tree_object'
 require_relative 'ferret/jira_reference'
+require_relative 'ferret/jira_reference_scheme'
 require_relative 'ferret/reference'
 require_relative 'ferret/reference_finder'
+require_relative 'ferret/reference_scheme'
 require_relative 'ferret/reporting'
 require_relative 'ferret/repository'
 require_relative 'ferret/repository_cache'
@@ -33,7 +35,6 @@ require_relative 'ferret/tree_diff'
 require_relative 'ferret/user_password_auth'
 require_relative 'ferret/vcs_driver'
 require_relative 'ferret/version'
-
 
 # Git functionality relies on the Rugged gem.
 # Make sure that is installed and enabled.
