@@ -5,6 +5,11 @@ module Ferret
   module Reporting
     # Transforms report information into a JSON object.
     class JsonReportRenderer < ReportRenderer
+      def initialize(report, pretty = false)
+        @pretty = pretty
+        super(report)
+      end
+
       def render
         obj = {
             title:   report.title,
@@ -14,7 +19,11 @@ module Ferret
         report.segments.each do |segment|
           obj[segment.slug] = segment.to_obj
         end
-        obj.to_json
+        if @pretty
+          JSON.pretty_generate(obj)
+        else
+          JSON.generate(obj)
+        end
       end
     end
   end
