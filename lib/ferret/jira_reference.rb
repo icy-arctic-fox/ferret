@@ -10,7 +10,7 @@ module Ferret
     end
 
     def initialize(name, url)
-      @url  = url
+      @url = url
       super(name)
     end
   end
