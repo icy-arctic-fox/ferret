@@ -12,8 +12,11 @@ module Ferret
       protected
 
       def segments
+        references        = commit_references(@diff.unmerged_commits)
+        branch_references = finder.search_branch(@diff.source_branch)
+        references        = (branch_references + references).uniq
         [
-            ReferenceListSegment.new('Unmerged references', 'unmerged_refs', ref_segments(@diff.unmerged_commits)),
+            ReferenceListSegment.new('Important references', 'references', ref_segments(references)),
             CommitListSegment.new('Unmerged commits', 'unmerged_commits', commit_segments(@diff.unmerged_commits)),
             CommitListSegment.new('Missing commits', 'missing_commits', commit_segments(@diff.commits_ahead)),
             CommitListSegment.new('Merged commits', 'merged_commits', commit_segments(@diff.merged_commits))
@@ -22,11 +25,15 @@ module Ferret
 
       private
 
-      def ref_segments(commits)
+      def commit_references(commits)
         reference_sets = commits.map do |commit|
-          finder.search_commit(commit).to_a
+          finder.search_commit(commit)
         end
-        reference_sets.flatten.uniq.map do |reference|
+        reference_sets.flatten.uniq
+      end
+
+      def ref_segments(references)
+        references.map do |reference|
           ReferenceSegment.new('References', reference)
         end
       end
