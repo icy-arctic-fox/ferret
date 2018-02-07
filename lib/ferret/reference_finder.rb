@@ -11,42 +11,34 @@ module Ferret
     # Attempts to find references from a branch instance.
     # This only scans the branch context, not the commits on it.
     # @param branch [Branch] Branch to search.
-    # @yieldparam reference [Reference] Found reference.
     # @return [Enumerable<Reference>] Found references.
-    def search_branch(branch, &block)
-      return enum_for(:search_branch) unless block_given?
-      search_text(branch.name, &block)
+    def search_branch(branch)
+      search_text(branch.name)
     end
 
     # Attempts to find references from a tag instance.
     # This only scans the tag context, not the commits on it.
     # @param tag [Tag] Tag to search.
-    # @yieldparam reference [Reference] Found reference.
     # @return [Enumerable<Reference>] Found references.
-    def search_tag(tag, &block)
-      return enum_for(:search_tag) unless block_given?
-      search_text(tag.name, &block)
+    def search_tag(tag)
+      search_text(tag.name)
     end
 
     # Attempts to find references in a commit.
     # @param commit [Commit] Commit to search.
-    # @yieldparam reference [Reference] Found reference.
     # @return [Enumerable<Reference>] Found references.
-    def search_commit(commit, &block)
-      return enum_for(:search_commit) unless block_given?
-      search_text(commit.message, &block)
+    def search_commit(commit)
+      search_text(commit.message)
     end
 
     # Attempts to find references in plain text.
     # @param text [String] Text to search.
-    # @yieldparam reference [Reference] Found reference.
     # @return [Enumerable<Reference>] Found references.
-    def search_text(text, &block)
-      return enum_for(:search_text) unless block_given?
+    def search_text(text)
       sets = @schemes.map do |scheme|
         scheme.find_all(text).uniq
       end
-      sets.flatten.uniq.each(&block)
+      sets.flatten.uniq
     end
   end
 end
