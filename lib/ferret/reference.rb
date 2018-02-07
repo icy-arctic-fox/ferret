@@ -15,12 +15,12 @@ module Ferret
     end
 
     def ==(other)
-      other.class == self.class && other.name == name
+      other.type == type && other.name == name
     end
     alias eql? ==
 
     def hash
-      self.class.hash ^ name.hash
+      type.hash ^ name.hash
     end
 
     def <=>(other)
