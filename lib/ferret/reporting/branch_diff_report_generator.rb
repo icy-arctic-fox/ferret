@@ -4,16 +4,18 @@ module Ferret
   module Reporting
     # Generates a report for the differences between two branches.
     class BranchDiffReportGenerator < ReportGenerator
-      def initialize(diff)
+      def initialize(title, summary, diff)
         @diff = diff
-        freeze
+        super(title, summary)
       end
 
       protected
 
       def segments
         [
-            CommitListSegment.new('Unmerged commits', 'unmerged', commit_segments(@diff.unmerged_commits))
+            CommitListSegment.new('Unmerged commits', 'unmerged', commit_segments(@diff.unmerged_commits)),
+            CommitListSegment.new('Missing commits', 'missing', commit_segments(@diff.commits_ahead)),
+            CommitListSegment.new('Merged commits', 'merged', commit_segments(@diff.merged_commits))
         ]
       end
 
