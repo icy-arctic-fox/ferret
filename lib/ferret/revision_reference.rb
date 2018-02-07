@@ -6,5 +6,9 @@ module Ferret
     # Revision being referenced.
     # @return [RevisionId]
     attr_reader :revision
+
+    def type
+      :revision
+    end
   end
 end

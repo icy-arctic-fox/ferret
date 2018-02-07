@@ -5,6 +5,8 @@ module Ferret
 
     abstract :url
 
+    abstract :type
+
     def initialize(name)
       @name = name
       freeze
