@@ -28,3 +28,11 @@ module Ferret
     end
   end
 end
+
+require 'time'
+
+class Time
+  def to_json
+    Time.now.iso8601
+  end
+end
