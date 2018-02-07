@@ -75,6 +75,17 @@ module Ferret
         end
       end
 
+      # Retrieves a list of all known tags in the repository.
+      # @param repository [Repository] Repository to inspect.
+      # @return [Enumerable<Tag>]
+      def tags_in_repository(repository)
+        rugged_tags = rugged_repository(repository).tags
+        rugged_tags.map do |tag|
+          revision = RevisionId.new(tag.target_id, repository)
+          GitTag.new(tag.name, revision)
+        end
+      end
+
       private
       # Generates the path to the local copy of the repository.
       # @param repository [Repository] Repository to operate on.

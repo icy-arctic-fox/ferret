@@ -35,5 +35,12 @@ module Ferret
     #   @return [Enumerable<Branch>]
     #   @abstract
     abstract :branches_in_repository
+
+    # @!method tags_in_repository(repository)
+    #   Retrieves a list of all known tags in the repository.
+    #   @param repository [Repository] Repository to inspect.
+    #   @return [Enumerable<Tag>]
+    #   @abstract
+    abstract :tags_in_repository
   end
 end
