@@ -32,7 +32,11 @@ end
 require 'time'
 
 class Time
-  def to_json
-    Time.now.iso8601
+  def to_json(state = nil)
+    if state
+      "\"#{iso8601}\""
+    else
+      iso8601
+    end
   end
 end
