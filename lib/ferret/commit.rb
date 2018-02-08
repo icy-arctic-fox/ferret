@@ -28,12 +28,25 @@ module Ferret
       freeze
     end
 
+    def short_message
+      first_line = message.split("\n", 2).first
+      if first_line.length > 50
+        first_line[0...50] + '...'
+      else
+        first_line
+      end
+    end
+
     def ==(other)
       other.revision == revision && other.message == message && other.author == author
     end
 
     def <=>(other)
       author <=> other.author
+    end
+
+    def to_s
+      "#{revision} - #{author}: #{short_message}"
     end
   end
 end

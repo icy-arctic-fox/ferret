@@ -27,5 +27,9 @@ module Ferret
     def <=>(other)
       time <=> other.time
     end
+
+    def to_s
+      "#{author} @ #{time}"
+    end
   end
 end

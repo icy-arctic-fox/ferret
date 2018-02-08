@@ -20,12 +20,20 @@ module Ferret
         super(revision, message, author)
       end
 
+      def short_revision
+        revision.id[0...7]
+      end
+
       def ==(other)
         super && other.respond_to?(:committer) && other.committer == committer
       end
 
       def <=>(other)
         committer <=> other.committer
+      end
+
+      def to_s
+        "#{short_revision} - #{author}: #{short_message}"
       end
     end
   end

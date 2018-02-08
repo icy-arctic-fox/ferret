@@ -12,5 +12,9 @@ module Ferret
       @url = url
       freeze
     end
+
+    def to_s
+      url.to_s
+    end
   end
 end

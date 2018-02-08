@@ -21,5 +21,9 @@ module Ferret
     def ==(other)
       other.id == id
     end
+
+    def to_s
+      "#{repository} rev: #{id}"
+    end
   end
 end

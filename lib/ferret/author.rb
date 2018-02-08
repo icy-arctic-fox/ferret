@@ -15,5 +15,9 @@ module Ferret
     def ==(other)
       other.name == name
     end
+
+    def to_s
+      name.to_s
+    end
   end
 end
