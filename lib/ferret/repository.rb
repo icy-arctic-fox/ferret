@@ -13,6 +13,15 @@ module Ferret
       freeze
     end
 
+    def ==(other)
+      other.url == url
+    end
+    alias eql? ==
+
+    def hash
+      url.hash
+    end
+
     def to_s
       url.to_s
     end

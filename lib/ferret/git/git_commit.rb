@@ -27,6 +27,11 @@ module Ferret
       def ==(other)
         super && other.respond_to?(:committer) && other.committer == committer
       end
+      alias eql? ==
+
+      def hash
+        super ^ committer.hash
+      end
 
       def <=>(other)
         committer <=> other.committer

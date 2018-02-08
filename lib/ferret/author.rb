@@ -15,6 +15,11 @@ module Ferret
     def ==(other)
       other.name == name
     end
+    alias eql? ==
+
+    def hash
+      name.hash
+    end
 
     def to_s
       name.to_s

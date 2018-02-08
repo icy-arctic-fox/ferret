@@ -21,6 +21,11 @@ module Ferret
     def ==(other)
       other.id == id
     end
+    alias eql? ==
+
+    def hash
+      id.hash
+    end
 
     def to_s
       "#{repository} rev: #{id}"

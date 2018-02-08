@@ -23,6 +23,11 @@ module Ferret
     def ==(other)
       other.author == author && other.time == time
     end
+    alias eql? ==
+
+    def hash
+      author.hash ^ time.hash
+    end
 
     def <=>(other)
       time <=> other.time

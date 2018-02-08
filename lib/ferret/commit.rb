@@ -40,6 +40,11 @@ module Ferret
     def ==(other)
       other.revision == revision && other.message == message && other.author == author
     end
+    alias eql? ==
+
+    def hash
+      revision.hash ^ message.hash ^ author.hash
+    end
 
     def <=>(other)
       author <=> other.author

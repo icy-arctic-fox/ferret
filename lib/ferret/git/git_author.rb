@@ -19,6 +19,11 @@ module Ferret
       def ==(other)
         super && other.respond_to?(:email) && other.email == email
       end
+      alias eql? ==
+
+      def hash
+        super ^ email.hash
+      end
     end
   end
 end
