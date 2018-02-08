@@ -1,3 +1,4 @@
 #!/usr/bin/env ruby
 
-require 'ferret'
+require 'ferret/cli'
+Ferret::CLI.start(ARGV)
