@@ -164,6 +164,7 @@ module Ferret
         rugged     = rugged_repository(repository)
         walker     = Rugged::Walker.new(rugged)
         walker.push(start.id)
+        walker.sorting(Rugged::SORT_TOPO | Rugged::SORT_DATE | Rugged::SORT_REVERSE)
         walker.map(&block)
       end
 
