@@ -9,10 +9,6 @@ module Ferret
     # @return [Branch]
     attr_reader :destination_branch
 
-    # Commits that exist on both branches.
-    # @return [Array<Commit>]
-    attr_reader :merged_commits
-
     # Commits that exist on the source branch, but not the destination branch.
     # @return [Array<Commit>]
     attr_reader :unmerged_commits
@@ -25,16 +21,14 @@ module Ferret
     # @param source_branch [Branch] Branch used as the base.
     # @param destination_branch [Branch] Branch used as the target.
     # @param commits [Hash] Sets of commits.
-    # @option commits [Enumerable<Commit>] :merged Commits that exist on both branches.
     # @option commits [Enumerable<Commit>] :unmerged Commits that exist on +source_branch+,
     #   but not +destination_branch+.
     # @option commits [Enumerable<Commit>] :ahead Commits that exist on +destination_branch+,
     #   but not +source_branch+.
     def initialize(source_branch, destination_branch, commits = {
-        merged: [], unmerged: [], ahead: []})
+        unmerged: [], ahead: []})
       @source_branch      = source_branch
       @destination_branch = destination_branch
-      @merged_commits     = commits[:merged].to_a.dup.freeze
       @unmerged_commits   = commits[:unmerged].to_a.dup.freeze
       @commits_ahead      = commits[:ahead].to_a.dup.freeze
       freeze

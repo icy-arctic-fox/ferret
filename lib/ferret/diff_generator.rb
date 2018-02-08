@@ -21,17 +21,14 @@ module Ferret
       source_commits      = @source_driver.commits_on_branch(source_branch)
       destination_commits = @destination_driver.commits_on_branch(destination_branch)
       sdiff = Diff::LCS.sdiff(destination_commits, source_commits) # Flipped to make more sense below.
-      merged_commits   = sdiff.select { |i| i.unchanged? }.map { |i| i.old_element }
       unmerged_commits = sdiff.select { |i| i.adding?    }.map { |i| i.new_element }
       commits_ahead    = sdiff.select { |i| i.deleting?  }.map { |i| i.old_element }
       overlap = sdiff.select { |i| i.changed? }
       unmerged_commits += overlap.map { |i| i.new_element }
       commits_ahead    += overlap.map { |i| i.old_element }
-      merged_commits.sort!
       unmerged_commits.sort!
       commits_ahead.sort!
-      BranchDiff.new(source_branch, destination_branch,
-                     merged: merged_commits, unmerged: unmerged_commits, ahead: commits_ahead)
+      BranchDiff.new(source_branch, destination_branch, unmerged: unmerged_commits, ahead: commits_ahead)
     end
 
     # Computes the difference between two code trees.

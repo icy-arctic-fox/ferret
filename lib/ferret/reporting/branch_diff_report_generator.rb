@@ -18,8 +18,7 @@ module Ferret
         [
             ReferenceListSegment.new('Important references', 'references', ref_segments(references)),
             CommitListSegment.new('Unmerged commits', 'unmerged_commits', commit_segments(@diff.unmerged_commits)),
-            CommitListSegment.new('Missing commits', 'missing_commits', commit_segments(@diff.commits_ahead)),
-            CommitListSegment.new('Merged commits', 'merged_commits', commit_segments(@diff.merged_commits))
+            CommitListSegment.new('Missing commits', 'missing_commits', commit_segments(@diff.commits_ahead))
         ]
       end
 
