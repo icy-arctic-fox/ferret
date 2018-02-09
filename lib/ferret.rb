@@ -35,6 +35,7 @@ require_relative 'ferret/tag'
 require_relative 'ferret/tree_diff'
 require_relative 'ferret/user_password_auth'
 require_relative 'ferret/vcs_driver'
+require_relative 'ferret/vcs_driver_factory'
 require_relative 'ferret/version'
 
 # Git functionality relies on the Rugged gem.
