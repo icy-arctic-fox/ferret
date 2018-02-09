@@ -85,10 +85,10 @@ module Ferret
       end
 
       def build_repositories(arr, auth_methods)
-        auth_name = obj['auth']
-        auth = auth_name ? auth_methods[auth_name] : nil
         Hash[arr.map do |obj|
-          name = obj['name']
+          name      = obj['name']
+          auth_name = obj['auth']
+          auth      = auth_name ? auth_methods[auth_name] : nil
           [name, build_repository(obj, auth)]
         end]
       end
@@ -106,8 +106,8 @@ module Ferret
       end
 
       def map_references_to_repositories(repos_arr, references)
-        repos_arr.map do |repo_obj|
-          if repo_obj.has_key?('references')
+        Hash[repos_arr.map do |repo_obj|
+          repo_references = if repo_obj.has_key?('references')
             mapping = repo_obj['references'].map do |ref_name|
               references[ref_name]
             end
@@ -115,7 +115,8 @@ module Ferret
           else
             []
           end
-        end
+          [repo_obj['name'], repo_references]
+        end]
       end
     end
   end
