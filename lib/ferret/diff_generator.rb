@@ -18,14 +18,13 @@ module Ferret
     # @param destination_branch [Branch] Branch to compare to.
     # @return [BranchDiff] Differences between the branches.
     def between_branches(source_branch, destination_branch)
+      return @source_driver.commit_diff_between_branches(source_branch, destination_branch) if @source_driver == @destination_driver && @source_driver.respond_to?(:commit_diff_between_branches)
       source_commits      = @source_driver.commits_on_branch(source_branch)
       destination_commits = @destination_driver.commits_on_branch(destination_branch)
-      sdiff = Diff::LCS.sdiff(destination_commits, source_commits) # Flipped to make more sense below.
-      unmerged_commits = sdiff.select { |i| i.adding?    }.map { |i| i.new_element }
-      commits_ahead    = sdiff.select { |i| i.deleting?  }.map { |i| i.old_element }
-      overlap = sdiff.select { |i| i.changed? }
-      unmerged_commits += overlap.map { |i| i.new_element }
-      commits_ahead    += overlap.map { |i| i.old_element }
+      mash = Hash[source_commits.map { |c| [c, 0x01] }]
+      destination_commits.each { |c| mash[c] |= 0x02 }
+      unmerged_commits = mash.select { |_, v| v == 0x01 }.map { |c, _| c }
+      commits_ahead    = mash.select { |_, v| v == 0x02 }.map { |c, _| c }
       unmerged_commits.sort!
       commits_ahead.sort!
       BranchDiff.new(source_branch, destination_branch, unmerged: unmerged_commits, ahead: commits_ahead)
