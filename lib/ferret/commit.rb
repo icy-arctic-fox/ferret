@@ -17,14 +17,20 @@ module Ferret
     # @return [AuthorTime]
     attr_reader :author
 
+    # Statistical information about the commit.
+    # @return [CommitStats]
+    attr_reader :stats
+
     # Creates a reference to a commit.
     # @param revision [RevisionId] Unique identifier for this commit.
     # @param message [String] Message submitted with the commit.
     # @param author [AuthorTime] User and time the commit was created.
-    def initialize(revision, message, author)
+    # @param stats [CommitStats] Statistical information about the commit.
+    def initialize(revision, message, author, stats)
       @revision = revision
       @message  = message
       @author   = author
+      @stats    = stats
       freeze
     end
 

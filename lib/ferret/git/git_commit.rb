@@ -13,11 +13,12 @@ module Ferret
       # @param revision [RevisionId] Unique identifier for this commit.
       # @param message [String] Message submitted with the commit.
       # @param author [AuthorTime] User and time the change was written.
+      # @param stats [CommitStats] Statistical information about the commit.
       # @param committer [AuthorTime, nil] User and time the commit was made.
       #   Specify +nil+ to use the same value as +author+.
-      def initialize(revision, message, author, committer = nil)
+      def initialize(revision, message, author, stats, committer = nil)
         @committer = committer || author
-        super(revision, message, author)
+        super(revision, message, author, stats)
       end
 
       def short_revision

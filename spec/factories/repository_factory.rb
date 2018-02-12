@@ -32,6 +32,7 @@ FactoryBot.define do
     message 'Just a test commit'
     author { build(:git_author) }
     committer { author }
-    initialize_with { new(revision, message, author, committer) }
+    stats { build(:commit_stats) }
+    initialize_with { new(revision, message, author, stats, committer) }
   end
 end

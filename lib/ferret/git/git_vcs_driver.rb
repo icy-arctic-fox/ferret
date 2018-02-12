@@ -58,7 +58,8 @@ module Ferret
           revision  = RevisionId.new(rugged_commit.oid, repository)
           author    = rugged_author_to_author_time(rugged_commit.author)
           committer = rugged_author_to_author_time(rugged_commit.committer)
-          GitCommit.new(revision, rugged_commit.message, author, committer)
+          stats     = nil # TODO: Generate stats.
+          GitCommit.new(revision, rugged_commit.message, author, stats, committer)
         end
       end
 
