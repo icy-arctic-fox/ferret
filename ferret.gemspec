@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rugged',   '~> 0.26'
   spec.add_dependency 'diff-lcs', '~> 1.3'
   spec.add_dependency 'thor',     '~> 0.20'
+  spec.add_dependency 'haml',     '~> 5.0'
 
   spec.add_development_dependency 'bundler',     '~> 1.16'
   spec.add_development_dependency 'rake',        '~> 10.0'

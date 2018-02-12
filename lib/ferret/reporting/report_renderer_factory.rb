@@ -16,7 +16,7 @@ module Ferret
         case type
           when :json
             JsonReportRenderer.new(@report, true)
-          when :text
+          when :html
             HtmlReportRenderer.new(@report)
           when :xml
             XmlReportRenderer.new(@report)
