@@ -1,0 +1,14 @@
+%span= "#{segment[:count]} commits"
+%ul
+  - segment[:commits].each do |commit|
+    %li.commit{id: 'rev-' + commit[:revision]}
+      %span.revision= commit[:short_revision] || commit[:revision]
+      %span.author= commit[:author_name]
+      %span.message= commit[:short] || commit[:message]
+      - if commit[:references].any?
+        .references
+          %span= "#{commit[:references].count} references"
+          %ul
+            - commit[:references].each do |reference|
+              %li.reference{class: reference[:type]}
+                %a{href: reference[:url]}= reference[:name]
