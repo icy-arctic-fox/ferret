@@ -7,7 +7,7 @@ module Ferret
     class HtmlReportRenderer < ReportRenderer
       def render
         engine = Haml::Engine.new(report_template)
-        engine.render(Object.new, report: report, &method(:render_segment))
+        engine.render(Object.new, report: report, css: theme_text, &method(:render_segment))
       end
 
       private
@@ -18,17 +18,22 @@ module Ferret
       end
 
       def assets_dir
-        ::File.join(::File.dirname(__FILE__), '..', '..', '..', 'assets', 'html')
+        ::File.join(::File.dirname(__FILE__), '..', '..', '..', 'assets')
+      end
+
+      def theme_text
+        css_theme_file = ::File.join(assets_dir, 'css', 'theme.css')
+        ::File.read(css_theme_file)
       end
 
       def report_template
-        report_template_file = ::File.join(assets_dir, 'report.haml')
+        report_template_file = ::File.join(assets_dir, 'html', 'report.haml')
         ::File.read(report_template_file)
       end
 
       def segment_template(segment)
         snake_case_name = snake_case(segment.class.to_s)
-        segment_template_fie = ::File.join(assets_dir, snake_case_name + '.haml')
+        segment_template_fie = ::File.join(assets_dir, 'html', snake_case_name + '.haml')
         ::File.read(segment_template_fie)
       end
 
