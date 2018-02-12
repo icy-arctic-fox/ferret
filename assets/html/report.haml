@@ -4,3 +4,12 @@
     %title= report.title
 
   %body
+    %h1= report.title
+    %p.summary= report.summary
+
+    - report.segments.each do |segment|
+      .segment{id: segment.slug}
+        %h2= segment.title
+        .content= yield segment
+
+    %span.time= "Report created at #{report.time.strftime('%c')}"

@@ -7,7 +7,9 @@ module Ferret
     class HtmlReportRenderer < ReportRenderer
       def render
         engine = Haml::Engine.new(report_template)
-        engine.render(Object.new, report: report)
+        engine.render(Object.new, report: report) do |segment|
+          segment.title
+        end
       end
 
       private
