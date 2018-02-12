@@ -16,11 +16,15 @@ module Ferret
             time:        @commit.author.time,
             revision:    @commit.revision.id,
             message:     @commit.message,
+            short:       @commit.short_message,
             references:  @references.map(&:to_obj)
         }
         if has_committer?
           obj[:commit_time]    = @commit.committer.time
           obj[:committer_name] = @commit.committer.author.name
+        end
+        if @commit.respond_to?(:short_revision)
+          obj[:short_revision] = @commit.short_revision
         end
         obj
       end
