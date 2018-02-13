@@ -14,6 +14,11 @@ module Ferret
             commits: @commits.map(&:to_obj)
         }
       end
+
+      def to_s
+        "#{@commits.count} commits\n" +
+          @commits.map(&:to_s).map { |str| "* #{str}" }.join("\n")
+      end
     end
   end
 end

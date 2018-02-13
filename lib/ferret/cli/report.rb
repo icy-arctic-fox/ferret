@@ -25,7 +25,7 @@ module Ferret
         finder     = ReferenceFinder.new(schemes)
         generator  = DiffGenerator.new(src_driver, dst_driver)
         diff       = generator.between_branches(src_branch, dst_branch)
-        summary    = options[:summary] || "Commits different between #{src_branch.name} and #{dst_branch.name}"
+        summary    = options[:summary] || "Commits different between #{src_branch.name} and #{dst_branch.name}."
         report_gen = Reporting::BranchDiffReportGenerator.new(options[:title], summary, finder, diff)
         report     = report_gen.generate
         renderer   = Reporting::ReportRendererFactory.new(report).create(options[:format].to_sym)

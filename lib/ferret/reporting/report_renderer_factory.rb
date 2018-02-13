@@ -14,6 +14,8 @@ module Ferret
       # @return [ReportRenderer]
       def create(type)
         case type
+          when :text
+            TextReportRenderer.new(@report)
           when :json
             JsonReportRenderer.new(@report, true)
           when :html

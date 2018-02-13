@@ -14,6 +14,11 @@ module Ferret
             references: @references.map(&:to_obj)
         }
       end
+
+      def to_s
+        "#{@references.count} references\n" +
+            @references.map(&:to_s).join(', ')
+      end
     end
   end
 end

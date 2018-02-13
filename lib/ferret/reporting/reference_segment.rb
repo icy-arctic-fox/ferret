@@ -13,6 +13,10 @@ module Ferret
             type: @reference.type
         }
       end
+
+      def to_s
+        @reference.name
+      end
     end
   end
 end

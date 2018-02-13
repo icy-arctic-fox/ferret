@@ -37,6 +37,10 @@ module Ferret
         obj
       end
 
+      def to_s
+        @commit.to_s
+      end
+
       private
 
       def has_committer?
