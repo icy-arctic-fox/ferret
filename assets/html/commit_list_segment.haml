@@ -5,6 +5,12 @@
       %span.revision= commit[:short_revision] || commit[:revision]
       %span.author= commit[:author_name]
       %span.message= commit[:short] || commit[:message]
+      .stats
+        %span.files_added= "#{commit[:stats][:files_added]} new files"
+        %span.files_removed= "#{commit[:stats][:files_removed]} files removed"
+        %span.files_modified= "#{commit[:stats][:files_modified]} files changed"
+        %span.lines_added= "#{commit[:stats][:lines_added]} lines added"
+        %span.lines_removed= "#{commit[:stats][:lines_removed]} lines removed"
       - if commit[:references].any?
         .references
           %span= "#{commit[:references].count} references"
