@@ -68,7 +68,7 @@ module Ferret
       def stats_from_commit(commit)
         rugged = rugged_repository(commit.revision.repository)
         rugged_commit = rugged.lookup(commit.revision.id)
-        diff_to_commit_stats(rugged_commit.diff)
+        diff_to_commit_stats(rugged_commit.diff(reverse: true))
       end
 
       # Retrieves a list of all known branches in a repository.
@@ -225,11 +225,10 @@ module Ferret
         files_added    = 0
         files_removed  = 0
         files_modified = 0
-        # The diff is flipped, so the delta show the opposite of what the commit did.
         diff.each_delta do |delta|
-          if delta.deleted?
+          if delta.added?
             files_added += 1
-          elsif delta.added?
+          elsif delta.deleted?
             files_removed += 1
           else
             files_modified += 1
@@ -240,8 +239,8 @@ module Ferret
           files_added:    files_added,
           files_removed:  files_removed,
           files_modified: files_modified,
-          lines_removed:  stats[1],
-          lines_added:    stats[2]
+          lines_added:    stats[1],
+          lines_removed:  stats[2]
         )
       end
     end
