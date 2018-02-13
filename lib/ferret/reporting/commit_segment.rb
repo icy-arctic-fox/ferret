@@ -17,7 +17,14 @@ module Ferret
             revision:    @commit.revision.id,
             message:     @commit.message,
             short:       @commit.short_message,
-            references:  @references.map(&:to_obj)
+            references:  @references.map(&:to_obj),
+            stats: {
+                lines_added:    @commit.stats.lines_added,
+                lines_removed:  @commit.stats.lines_removed,
+                files_added:    @commit.stats.files_added,
+                files_removed:  @commit.stats.files_removed,
+                files_modified: @commit.stats.files_modified
+            }
         }
         if has_committer?
           obj[:commit_time]    = @commit.committer.time

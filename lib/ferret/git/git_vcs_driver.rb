@@ -58,7 +58,7 @@ module Ferret
           revision  = RevisionId.new(rugged_commit.oid, repository)
           author    = rugged_author_to_author_time(rugged_commit.author)
           committer = rugged_author_to_author_time(rugged_commit.committer)
-          stats     = nil # TODO: Generate stats.
+          stats     = diff_to_commit_stats(rugged_commit.diff)
           GitCommit.new(revision, rugged_commit.message, author, stats, committer)
         end
       end
@@ -211,6 +211,30 @@ module Ferret
           tree = rugged.lookup(tree[parent][:oid])
         end
         rugged.lookup(tree[path][:oid])
+      end
+
+      def diff_to_commit_stats(diff)
+        files_added    = 0
+        files_removed  = 0
+        files_modified = 0
+        # The diff is flipped, so the delta show the opposite of what the commit did.
+        diff.each_delta do |delta|
+          if delta.deleted?
+            files_added += 1
+          elsif delta.added?
+            files_removed += 1
+          else
+            files_modified += 1
+          end
+        end
+        stats = diff.stat
+        CommitStats.new(
+          files_added:    files_added,
+          files_removed:  files_removed,
+          files_modified: files_modified,
+          lines_removed:  stats[1],
+          lines_added:    stats[2]
+        )
       end
     end
   end
