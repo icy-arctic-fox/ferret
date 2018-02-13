@@ -41,16 +41,6 @@ RSpec.describe Ferret::Git::GitCommit do
     end
   end
 
-  describe '#stats' do
-    let(:stats) { build(:commit_stats) }
-    subject(:commit) { build(:git_commit, stats: stats) }
-    subject { commit.stats }
-
-    it 'is the expected value' do
-      is_expected.to eq(stats)
-    end
-  end
-
   it 'is frozen' do
     is_expected.to be_frozen
   end
