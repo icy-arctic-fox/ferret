@@ -29,6 +29,13 @@ module Ferret
     #   @abstract
     abstract :commits_on_branch
 
+    # @!method stats_from_commit(commit)
+    #   Retrieves statistical information for a commit.
+    #   @param commit [Commit] Commit to collect statistics for.
+    #   @return [CommitStats]
+    #   @abstract
+    abstract :stats_from_commit
+
     # @!method branches_in_repository(repository)
     #   Retrieves a list of all known branches in a repository.
     #   @param repository [Repository] Repository to inspect.

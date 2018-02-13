@@ -62,6 +62,15 @@ module Ferret
         end
       end
 
+      # Retrieves statistical information for a commit.
+      # @param commit [Commit] Commit to collect statistics for.
+      # @return [CommitStats]
+      def stats_from_commit(commit)
+        rugged = rugged_repository(commit.revision.repository)
+        rugged_commit = rugged.lookup(commit.revision.id)
+        diff_to_commit_stats(rugged_commit.diff)
+      end
+
       # Retrieves a list of all known branches in a repository.
       # @param repository [Repository] Repository to inspect.
       # @return [Enumerable<Branch>]
