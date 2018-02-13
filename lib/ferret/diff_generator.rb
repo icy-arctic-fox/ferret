@@ -27,7 +27,12 @@ module Ferret
       commits_ahead    = mash.select { |_, v| v == 0x02 }.map { |c, _| c }
       unmerged_commits.sort!
       commits_ahead.sort!
-      BranchDiff.new(source_branch, destination_branch, unmerged: unmerged_commits, ahead: commits_ahead)
+      unmerged_stats = unmerged_commits.map { |commit| puts commit; @source_driver.stats_from_commit(commit) }
+      ahead_stats    = commits_ahead.map    { |commit| puts commit; @destination_driver.stats_from_commit(commit) }
+      BranchDiff.new(source_branch, destination_branch,
+                     unmerged: unmerged_commits, ahead: commits_ahead,
+                     unmerged_stats: unmerged_stats, ahead_stats: ahead_stats
+      )
     end
 
     # Computes the difference between two code trees.

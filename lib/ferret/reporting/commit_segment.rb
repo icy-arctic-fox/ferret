@@ -3,9 +3,10 @@ require_relative 'segment'
 module Ferret
   module Reporting
     class CommitSegment < Segment
-      def initialize(commit, references)
+      def initialize(commit, references, stats)
         @commit     = commit
         @references = references
+        @stats      = stats
         title = [commit.author.author.name, commit.revision.id].join(' ')
         super(title, commit.revision.id)
       end
@@ -19,11 +20,11 @@ module Ferret
             short:       @commit.short_message,
             references:  @references.map(&:to_obj),
             stats: {
-                lines_added:    @commit.stats.lines_added,
-                lines_removed:  @commit.stats.lines_removed,
-                files_added:    @commit.stats.files_added,
-                files_removed:  @commit.stats.files_removed,
-                files_modified: @commit.stats.files_modified
+                lines_added:    @stats.lines_added,
+                lines_removed:  @stats.lines_removed,
+                files_added:    @stats.files_added,
+                files_removed:  @stats.files_removed,
+                files_modified: @stats.files_modified
             }
         }
         if has_committer?

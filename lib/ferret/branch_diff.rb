@@ -17,6 +17,16 @@ module Ferret
     # @return [Array<Commit>]
     attr_reader :commits_ahead
 
+    # Statistics for commits that haven't been merged.
+    # This array is parallel to +unmerged_commits+.
+    # @return [Array<CommitStats>]
+    attr_reader :unmerged_stats
+
+    # Statistics for commits that only exist on the destination branch.
+    # This array is parallel to +commits_ahead+.
+    # @return [Array<CommitStats>]
+    attr_reader :ahead_stats
+
     # Creates a branch difference.
     # @param source_branch [Branch] Branch used as the base.
     # @param destination_branch [Branch] Branch used as the target.
@@ -25,12 +35,16 @@ module Ferret
     #   but not +destination_branch+.
     # @option commits [Enumerable<Commit>] :ahead Commits that exist on +destination_branch+,
     #   but not +source_branch+.
+    # @option commits [Enumerable<CommitStats>] :unmerged_stats Statistics for commits that haven't been merged.
+    # @option commits [Enumerable<CommitStats>] :ahead_stats Statistics for commits that only exist on the destination branch.
     def initialize(source_branch, destination_branch, commits = {
-        unmerged: [], ahead: []})
+        unmerged: [], ahead: [], unmerged_stats: [], ahead_stats: []})
       @source_branch      = source_branch
       @destination_branch = destination_branch
       @unmerged_commits   = commits[:unmerged].to_a.dup.freeze
       @commits_ahead      = commits[:ahead].to_a.dup.freeze
+      @unmerged_stats     = commits[:unmerged_stats].to_a.dup.freeze
+      @ahead_stats        = commits[:ahead_stats].to_a.dup.freeze
       freeze
     end
   end

@@ -17,8 +17,8 @@ module Ferret
         references        = (branch_references + references).uniq
         [
             ReferenceListSegment.new('Important references', 'references', ref_segments(references)),
-            CommitListSegment.new('Unmerged commits', 'unmerged_commits', commit_segments(@diff.unmerged_commits)),
-            CommitListSegment.new('Missing commits', 'missing_commits', commit_segments(@diff.commits_ahead))
+            CommitListSegment.new('Unmerged commits', 'unmerged_commits', commit_segments(@diff.unmerged_commits, @diff.unmerged_stats)),
+            CommitListSegment.new('Missing commits', 'missing_commits', commit_segments(@diff.commits_ahead, @diff.ahead_stats))
         ]
       end
 
@@ -37,12 +37,12 @@ module Ferret
         end
       end
 
-      def commit_segments(commits)
-        commits.reverse.map do |commit|
+      def commit_segments(commits, stats)
+        commits.reverse.zip(stats.reverse).map do |commit, stats|
           references = finder.search_commit(commit).map do |reference|
             ReferenceSegment.new('References', reference)
           end
-          CommitSegment.new(commit, references)
+          CommitSegment.new(commit, references, stats)
         end
       end
     end
