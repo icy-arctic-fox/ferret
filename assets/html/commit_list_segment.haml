@@ -1,4 +1,3 @@
-%span= "#{segment[:count]} commits"
 %ul.uk-list.uk-list-divider
   - segment[:commits].each do |commit|
     %li.commit{id: 'rev-' + commit[:revision]}
@@ -8,17 +7,24 @@
         - else
           %code= commit[:revision]
         %span= ' - ' + escape_once(commit[:message].strip.split("\n", 2).first)
-      %p.uk-text-meta
-        %time{datetime: commit[:time]}= commit[:time].strftime('%A, %B %e, %Y at %l:%M %p (%z)')
+      .author
+        %span{:'uk-icon' => 'user'}
+        %span= commit[:author_name]
+        %time.uk-text-meta{datetime: commit[:time]}= commit[:time].strftime('%A, %B %e, %Y at %l:%M %p (%z)')
       %p= escape_once(commit[:message].strip.split("\n", 2).last).strip.gsub(/(\r*\n)+/, "<br />\n")
       .stats
         - if commit[:stats][:files_added] > 0
+          %span.uk-text-success{:'uk-icon' => 'copy'}
           %span.uk-text-success.files_added= "#{commit[:stats][:files_added]} new file#{commit[:stats][:files_added] == 1 ? '' : 's'}"
         - if commit[:stats][:files_removed] > 0
+          %span.uk-text-danger{:'uk-icon' => 'trash'}
           %span.uk-text-danger.files_removed= "#{commit[:stats][:files_removed]} new file#{commit[:stats][:files_removed] == 1 ? '' : 's'}"
         - if commit[:stats][:files_modified] > 0
+          %span.uk-text-warning{:'uk-icon' => 'file-edit'}
           %span.uk-text-warning.files_modified= "#{commit[:stats][:files_modified]} file#{commit[:stats][:files_modified] == 1 ? '' : 's'} modified"
         - if commit[:stats][:lines_added] > 0
+          %span.uk-text-success{:'uk-icon' => 'code'}
           %span.uk-text-success.lines_added= "#{commit[:stats][:lines_added]} line#{commit[:stats][:lines_added] == 1 ? '' : 's'} added"
         - if commit[:stats][:lines_removed] > 0
+          %span.uk-text-danger{:'uk-icon' => 'code'}
           %span.uk-text-danger.lines_removed= "#{commit[:stats][:lines_removed]} line#{commit[:stats][:lines_removed] == 1 ? '' : 's'} removed"

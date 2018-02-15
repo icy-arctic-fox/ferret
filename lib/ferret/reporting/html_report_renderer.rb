@@ -7,9 +7,10 @@ module Ferret
     class HtmlReportRenderer < ReportRenderer
       def render
         vars   = {
-            report: report,
-            css:    theme_text,
-            js:     js_text
+            report:  report,
+            css:     theme_text,
+            js:      js_text,
+            icon_js: icon_js_text
         }
         engine = Haml::Engine.new(report_template)
         engine.render(Object.new, vars, &method(:render_segment))
@@ -37,6 +38,11 @@ module Ferret
 
       def js_text
         js_file = ::File.join(assets_dir, 'js', 'uikit.min.js')
+        ::File.read(js_file)
+      end
+
+      def icon_js_text
+        js_file = ::File.join(assets_dir, 'js', 'uikit-icons.min.js')
         ::File.read(js_file)
       end
 
