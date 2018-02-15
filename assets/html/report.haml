@@ -15,7 +15,7 @@
       .uk-section.uk-section-xsmall
         .uk-container
           .uk-card.uk-card-default.segment{id: segment.slug}
-            .uk-card-header
+            .uk-card-header.uk-background-default{:'uk-sticky' => 'uk-sticky'}
               %h2.uk-card-title.uk-margin-remove-bottom= segment.title
             .uk-card-body.content= yield segment
 
