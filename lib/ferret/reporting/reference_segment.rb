@@ -8,9 +8,10 @@ module Ferret
 
       def to_obj
         {
-            name: @reference.name,
-            url:  @reference.url,
-            type: @reference.type
+            _type: 'reference',
+            name:  @reference.name,
+            url:   @reference.url,
+            type:  @reference.type
         }
       end
 

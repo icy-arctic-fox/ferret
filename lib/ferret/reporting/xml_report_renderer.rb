@@ -30,6 +30,7 @@ module Ferret
 
       def build_obj_xml(xml, obj)
         obj.each do |k, v|
+          next if k.to_s.start_with?('_')
           case v
             when Hash
               xml.send(k) {
@@ -38,7 +39,8 @@ module Ferret
             when Array
               xml.send(k) {
                 v.each do |i|
-                  xml.send(:entry) {# TODO: Replace with singular form of k
+                  type = i[:_type] || :entry
+                  xml.send(type) {
                     build_obj_xml(xml, i)
                   }
                 end

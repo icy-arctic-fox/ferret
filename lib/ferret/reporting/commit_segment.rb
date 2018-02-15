@@ -13,6 +13,7 @@ module Ferret
 
       def to_obj
         obj = {
+            _type:       'commit',
             author_name: @commit.author.author.name,
             time:        @commit.author.time,
             revision:    @commit.revision.id,
