@@ -1,20 +1,24 @@
 %span= "#{segment[:count]} commits"
-%ul
+%ul.uk-list.uk-list-divider
   - segment[:commits].each do |commit|
     %li.commit{id: 'rev-' + commit[:revision]}
-      %span.revision= commit[:short_revision] || commit[:revision]
-      %span.author= commit[:author_name]
-      %span.message= commit[:short] || commit[:message]
+      %h3
+        - if commit[:short_revision]
+          %abbr{title: commit[:revision]}= commit[:short_revision]
+        - else
+          %code= commit[:revision]
+        %span= ' - ' + escape_once(commit[:message].strip.split("\n", 2).first)
+      %p.uk-text-meta
+        %time{datetime: commit[:time]}= commit[:time].strftime('%A, %B %e, %Y at %l:%M %p (%z)')
+      %p= escape_once(commit[:message].strip.split("\n", 2).last).strip.gsub(/(\r*\n)+/, "<br />\n")
       .stats
-        %span.files_added= "#{commit[:stats][:files_added]} new files"
-        %span.files_removed= "#{commit[:stats][:files_removed]} files removed"
-        %span.files_modified= "#{commit[:stats][:files_modified]} files changed"
-        %span.lines_added= "#{commit[:stats][:lines_added]} lines added"
-        %span.lines_removed= "#{commit[:stats][:lines_removed]} lines removed"
-      - if commit[:references].any?
-        .references
-          %span= "#{commit[:references].count} references"
-          %ul
-            - commit[:references].each do |reference|
-              %li.reference{class: reference[:type]}
-                %a{href: reference[:url]}= reference[:name]
+        - if commit[:stats][:files_added] > 0
+          %span.uk-text-success.files_added= "#{commit[:stats][:files_added]} new file#{commit[:stats][:files_added] == 1 ? '' : 's'}"
+        - if commit[:stats][:files_removed] > 0
+          %span.uk-text-danger.files_removed= "#{commit[:stats][:files_removed]} new file#{commit[:stats][:files_removed] == 1 ? '' : 's'}"
+        - if commit[:stats][:files_modified] > 0
+          %span.uk-text-warning.files_modified= "#{commit[:stats][:files_modified]} file#{commit[:stats][:files_modified] == 1 ? '' : 's'} modified"
+        - if commit[:stats][:lines_added] > 0
+          %span.uk-text-success.lines_added= "#{commit[:stats][:lines_added]} line#{commit[:stats][:lines_added] == 1 ? '' : 's'} added"
+        - if commit[:stats][:lines_removed] > 0
+          %span.uk-text-danger.lines_removed= "#{commit[:stats][:lines_removed]} line#{commit[:stats][:lines_removed] == 1 ? '' : 's'} removed"

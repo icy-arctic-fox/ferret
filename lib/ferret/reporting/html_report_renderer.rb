@@ -6,15 +6,24 @@ module Ferret
     # Transforms report information into HTML pages.
     class HtmlReportRenderer < ReportRenderer
       def render
+        vars   = {
+            report: report,
+            css:    theme_text,
+            js:     js_text
+        }
         engine = Haml::Engine.new(report_template)
-        engine.render(Object.new, report: report, css: theme_text, &method(:render_segment))
+        engine.render(Object.new, vars, &method(:render_segment))
       end
 
       private
 
       def render_segment(segment)
+        vars = {
+            report:  report,
+            segment: segment.to_obj
+        }
         segment_engine = Haml::Engine.new(segment_template(segment))
-        segment_engine.render(Object.new, report: report, segment: segment.to_obj, &method(:render_segment))
+        segment_engine.render(Object.new, vars, &method(:render_segment))
       end
 
       def assets_dir
@@ -22,8 +31,13 @@ module Ferret
       end
 
       def theme_text
-        css_theme_file = ::File.join(assets_dir, 'css', 'theme.css')
+        css_theme_file = ::File.join(assets_dir, 'css', 'uikit.min.css')
         ::File.read(css_theme_file)
+      end
+
+      def js_text
+        js_file = ::File.join(assets_dir, 'js', 'uikit.min.js')
+        ::File.read(js_file)
       end
 
       def report_template

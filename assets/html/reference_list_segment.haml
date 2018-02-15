@@ -1,5 +1,5 @@
 %span= "#{segment[:count]} references"
-%ul
+%ul.uk-list-inline
   - segment[:references].each do |reference|
     %li.reference{class: reference[:type]}
       %a{href: reference[:url]}= reference[:name]

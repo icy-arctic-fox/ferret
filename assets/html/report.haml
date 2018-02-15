@@ -3,14 +3,22 @@
   %head
     %title= report.title
     %style= css
+    %script= js
 
   %body
-    %h1= report.title
-    %p.summary= report.summary
+    .uk-section.uk-section-small.uk-light.uk-background-primary
+      .uk-container
+        %h1= report.title
+        %p.summary= report.summary
 
     - report.segments.each do |segment|
-      .segment{id: segment.slug}
-        %h2= segment.title
-        .content= yield segment
+      .uk-section.uk-section-xsmall
+        .uk-container
+          .uk-card.uk-card-default.segment{id: segment.slug}
+            .uk-card-header
+              %h2.uk-card-title.uk-margin-remove-bottom= segment.title
+            .uk-card-body.content= yield segment
 
-    %span.time= "Report created at #{report.time.strftime('%c')}"
+    .uk-section.uk-section-small.uk-light.uk-background-secondary
+      .uk-container.footer
+        %span.time= "Report created on #{report.time.strftime('%A, %B %e, %Y at %l:%M %p (%z)')}"
