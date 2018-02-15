@@ -21,12 +21,7 @@ module Ferret
       return @source_driver.commit_diff_between_branches(source_branch, destination_branch) if @source_driver == @destination_driver && @source_driver.respond_to?(:commit_diff_between_branches)
       source_commits      = @source_driver.commits_on_branch(source_branch)
       destination_commits = @destination_driver.commits_on_branch(destination_branch)
-      mash = Hash[source_commits.map { |c| [c, 0x01] }]
-      destination_commits.each { |c| mash[c] |= 0x02 }
-      unmerged_commits = mash.select { |_, v| v == 0x01 }.map { |c, _| c }
-      commits_ahead    = mash.select { |_, v| v == 0x02 }.map { |c, _| c }
-      unmerged_commits.sort!
-      commits_ahead.sort!
+      unmerged_commits, commits_ahead = diff_instances(source_commits, destination_commits)
       unmerged_stats = unmerged_commits.map { |commit| @source_driver.stats_from_commit(commit) }
       ahead_stats    = commits_ahead.map    { |commit| @destination_driver.stats_from_commit(commit) }
       BranchDiff.new(source_branch, destination_branch,
@@ -57,6 +52,23 @@ module Ferret
     # @return [DirectoryDiff] Differences between the directories.
     def between_directories(source_directory, destination_directory)
       raise NotImplementedError
+    end
+
+    private
+
+    # Compares two sets of instances and returns the differences between them.
+    # The instances must have hash equality methods - #hash and #eql?.
+    # The returned differences will be sorted, so custom comparative methods may be useful.
+    # @param left [Enumerable] First set of instances to diff.
+    # @param right [Enumerable] Second set of instances to diff.
+    # @return [Array<Enumerable>] Two sets, the first with items only in +left+,
+    #   and the second with items only in +right+.
+    def diff_instances(left, right)
+      mash = Hash[left.map { |l| [l, 0x1] }]
+      right.each { |r| mash[r] |= 0x2 }
+      left_only  = mash.select { |_, v| v == 0x1 }.map { |l, _| l }
+      right_only = mash.select { |_, v| v == 0x2 }.map { |r, _| r }
+      return left_only.sort, right_only.sort
     end
   end
 end
